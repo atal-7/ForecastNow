@@ -20,7 +20,7 @@ namespace ForecastNow.Management.Helper
         public static async Task<List<City>> GetCities(string query)
         {
 
-            List<City>? cities = null;
+            List<City>? cities = new List<City>();
             string url = BASE_URL + string.Format(AUTOCOMPLETE_ENDPOINT, API_KEY, query);
 
             try
