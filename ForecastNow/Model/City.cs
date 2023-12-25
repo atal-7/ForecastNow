@@ -15,8 +15,8 @@ namespace ForecastNow.Model
     public class City
     {
         public int Version { get; set; }
-        public int Key { get; set; }
-        public int Type { get; set; }
+        public string? Key { get; set; }
+        public string? Type { get; set; }
         public int Rank { get; set; }
         public string? LocalizedName { get; set; }
         public Area? Country { get; set; }
