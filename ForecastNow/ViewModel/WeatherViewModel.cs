@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace ForecastNow.ViewModel
 {
-    public partial class WeatherViewModel : ViewModelBase
-    {
-        #region Properties
-        private string query;
+	public partial class WeatherViewModel : ViewModelBase
+	{
+		#region Properties
+		private string query;
 
 		public string Query
 		{
@@ -28,7 +28,7 @@ namespace ForecastNow.ViewModel
 		private CurrentWeather currentWeather;
 
 		public CurrentWeather CurrentWeather
-        {
+		{
 			get { return currentWeather; }
 			set
 			{
@@ -48,9 +48,9 @@ namespace ForecastNow.ViewModel
 				OnPropertyChanged(nameof(SelectedCity));
 			}
 		}
-        #endregion
+		#endregion
 
-        #region Constructor
+		#region Constructor
 		public WeatherViewModel()
 		{
 			if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
@@ -72,9 +72,9 @@ namespace ForecastNow.ViewModel
 				};
 			}
 
-            SearchCommand = new CommandBase(MakeQuery, CanMakeQuery);
+			SearchCommand = new CommandBase(MakeQuery, CanMakeQuery);
 		}
-        #endregion
+		#endregion
 
-    }
+	}
 }
