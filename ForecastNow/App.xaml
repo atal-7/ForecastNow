@@ -5,6 +5,10 @@
              xmlns:view="clr-namespace:ForecastNow.View"
              xmlns:viewmodel="clr-namespace:ForecastNow.ViewModel">
     <Application.Resources>
-        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Management/Style/CommonDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

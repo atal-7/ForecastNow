@@ -25,7 +25,7 @@ namespace ForecastNow
             InitializeComponent();
         }
 
-        private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
