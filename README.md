@@ -40,17 +40,16 @@ Welcome to the ForecastNow, a modern and feature-rich weather application built 
 - .NET Framework 6.0
 - AccuWeather API Key
 
-Additional Dependency:
+## Additional Dependency:
 
-	•	Newtonsoft.Json:
+- Newtonsoft.Json:
 The application utilizes Newtonsoft.Json for efficient deserialization of HTTP responses from the AccuWeather API. This library enhances the handling of JSON data, ensuring seamless integration with the app’s data retrieval processes.
 
-Installation:
-
-Ensure that Newtonsoft.Json is installed using NuGet Package Manager:
-
-nuget install Newtonsoft.Json
-
+- Installation:
+  Ensure that Newtonsoft.Json is installed using NuGet Package Manager:
+  ```
+  nuget install Newtonsoft.Json
+  ```
 
 ## Contributing:
 
@@ -58,5 +57,7 @@ If you'd like to enhance or fix issues, please open a pull request. For major ch
 
 ##
 Enjoy exploring the weather with the WPF Weather App!
+
+
 
 ![ForecastNow](https://github.com/atal-7/ForecastNow/assets/84587958/fa9f5633-9ce3-494d-a64d-d60acd7ee3cf)
