@@ -1,0 +1,204 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--Color-->
+    <Color x:Key="PrimaryPanelColor">#024dfa</Color>
+    <Color x:Key="ConditionPanelColor">#417afb</Color>
+    <Color x:Key="PressedButtonColor">#029bfa</Color>
+    <Color x:Key="NightPanelColor">#4a4a4a</Color>
+    <Color x:Key="GradientPanelColor">#2e2e2e</Color>
+    <Color x:Key="DarkPanelColor">#171717</Color>
+    
+    <!--SolidColorBrush-->
+    <SolidColorBrush x:Key="ConditionPanelBrush" Color="{StaticResource ConditionPanelColor}"/>
+    <SolidColorBrush x:Key="PressedButtonBrush" Color="{StaticResource PressedButtonColor}"/>
+
+    <!--LinearGradientBrush-->
+    <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0 0" EndPoint="1 1">
+        <GradientStop Color="SkyBlue" Offset="0.0"/>
+        <GradientStop Color="{StaticResource PrimaryPanelColor}" Offset="0.75"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="NightGradientBrush" StartPoint="0 0" EndPoint="1 1">
+        <GradientStop Color="{StaticResource NightPanelColor}" Offset="0.0"/>
+        <GradientStop Color="{StaticResource GradientPanelColor}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource DarkPanelColor}" Offset="0.9"/>
+    </LinearGradientBrush>
+
+    <!--TextBox-->
+    <Style TargetType="TextBox">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border 
+                        BorderThickness="1" 
+                        BorderBrush="Gray" 
+                        CornerRadius="3"
+                        Padding="2">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                            <TextBlock 
+                                x:Name="Watermark" 
+                                Text="{TemplateBinding Tag}"
+                                VerticalAlignment="Center"
+                                Foreground="DarkGray"
+                                Visibility="Collapsed"
+                                Focusable="False"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="False" />
+                                <Condition Property="Text" Value="" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Visibility" TargetName="Watermark" Value="Visible" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--TextBlock-->
+    <Style x:Key="DateTimeStyle" TargetType="TextBlock">
+        <Setter Property="Visibility" Value="Visible"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SelectedCityName}" Value="">
+                <Setter Property="Visibility" Value="Hidden"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
+    <!--Buttons-->
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource ConditionPanelBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                        Name="border"
+                        Opacity="1"
+                        CornerRadius="3" 
+                        Background="{TemplateBinding Background}" 
+                        Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="PreviewMouseDown">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation To="{StaticResource PressedButtonColor}" Duration="0:0:0.2" Storyboard.TargetProperty="Background.Color"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation From="1" To="0.75" Duration="0:0:0.2" Storyboard.TargetProperty="(Button.Opacity)"/>
+                        <ColorAnimation To="{StaticResource ConditionPanelColor}" Duration="0:0:0.2" Storyboard.TargetProperty="Background.Color"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation From="0.75" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="(Button.Opacity)"/>
+                        <ColorAnimation To="{StaticResource ConditionPanelColor}" Duration="0:0:0.2" Storyboard.TargetProperty="Background.Color"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="LightGray"/>
+                <Setter Property="Foreground" Value="Gray"/>
+                <Setter Property="Opacity" Value="0.9"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="CloseButtonStyle" TargetType="Button">
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Image 
+                        Source="/Management/Resource/close.png"
+                        RenderOptions.EdgeMode="Aliased"
+                        RenderOptions.BitmapScalingMode="Fant"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Height" Value="22"/>
+                            <Setter Property="Width" Value="22"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--Grid-->
+    <Style x:Key="GridBackgroundStyle" TargetType="Grid">
+        <Setter Property="Background" Value="{StaticResource ConditionPanelBrush}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding CurrentWeather.IsDayTime}" Value="False">
+                <Setter Property="Background" Value="{StaticResource NightGradientBrush}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding CurrentWeather.IsDayTime}" Value="True">
+                <Setter Property="Background" Value="{StaticResource PrimaryGradientBrush}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="GridLoadingStyle" TargetType="Grid">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--Image-->
+    <Style x:Key="ImageLoadingAnimationStyle" TargetType="Image">
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <RotateTransform Angle="0"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation 
+                                To="180" 
+                                Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)"
+                                Duration="0:0:0.5"
+                                RepeatBehavior="Forever"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation 
+                                To="0" 
+                                Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)"
+                                Duration="0:0:0.5"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

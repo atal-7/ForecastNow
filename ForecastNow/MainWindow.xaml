@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Height="600" Width="400"
+        MinHeight="350" MinWidth="250"
         WindowStyle="None"
         ResizeMode="CanResize"
         WindowState="Normal"
@@ -22,20 +23,19 @@
     </WindowChrome.WindowChrome>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="35"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DockPanel
+        <Grid
             Grid.Row="0"
             Background="Transparent"
-            MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
+            MouseLeftButtonDown="Grid_MouseLeftButtonDown">
             <Button
-                Height="10"
-                Width="10"
-                Margin="5"
+                Margin="6"
                 HorizontalAlignment="Right"
+                Style="{StaticResource CloseButtonStyle}"
                 PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"/>
-        </DockPanel>
+        </Grid>
         <ContentControl
             Grid.Row="1"
             Content="{Binding CurrentViewModel}">

@@ -8,33 +8,83 @@
              mc:Ignorable="d"
              d:Height="580" d:Width="400"
              Background="White"
-             d:DataContext="{d:DesignInstance vm:WeatherViewModel, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance vm:WeatherViewModel, IsDesignTimeCreatable=False}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Margin="20 0">
-            <TextBlock 
-                Text="Search for a City"
+        <Grid Grid.Row="0" Margin="20 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                FontSize="13"
+                FontWeight="SemiBold"
+                Text="Search City"
+                Margin="0 3"/>
+            <TextBox 
+                Grid.Row="1"
+                Tag="Enter a City name"
+                FontSize="14"
+                Cursor="IBeam"
+                Text="{Binding Query,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0 2"/>
-            <TextBox Text="{Binding Query,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button 
+                Name="SearchButton"
+                Grid.Row="2"
                 Content="Search" 
-                Margin="0 10"
+                Margin="0 10 0 5"
+                IsDefault="True"
                 Command="{Binding SearchCommand}"
-                CommandParameter="{Binding Query}"/>
-            <ListView>
+                CommandParameter="{Binding Query}">
+            </Button>
+            <ListView 
+                Grid.Row="3"
+                ItemsSource="{Binding CitiesList}"
+                SelectedValue="{Binding SelectedCity}"
+                Margin="0 10"
+                ScrollViewer.CanContentScroll="True"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <TextBlock/>
-                        </Grid>
+                        <WrapPanel>
+                            <TextBlock 
+                                Text="{Binding LocalizedName, StringFormat='{}{0},'}"
+                                Margin="2 0"/>
+                            <TextBlock 
+                                Text="{Binding Country.LocalizedName}"
+                                Foreground="Gray"/>
+                        </WrapPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackPanel>
-        <Grid Grid.Row="1" Background="#4392f1">
+            <Grid
+                Grid.Row="3"
+                Background="White"
+                Tag="{Binding IsLoadingList}"
+                Style="{StaticResource GridLoadingStyle}">
+                <Image 
+                    Source="/Management/Resource/Loading.png"
+                    Tag="{Binding IsLoadingList}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Height="80"
+                    Style="{StaticResource ImageLoadingAnimationStyle}"
+                    RenderOptions.EdgeMode="Aliased"
+                    RenderOptions.BitmapScalingMode="Fant">
+                </Image>
+            </Grid>
+        </Grid>
+        <Grid 
+            Grid.Row="1"
+            Margin="0 5 0 0"
+            Style="{StaticResource GridBackgroundStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
@@ -42,21 +92,50 @@
             <StackPanel 
                 Grid.Column="0" Margin="20">
                 <TextBlock
-                    Text="{Binding SelectedCity.LocalizedName}"
-                    FontSize="20"
-                    Foreground="White"/>
+                    Text="{Binding SelectedCityName}"
+                    TextTrimming="WordEllipsis"
+                    FontSize="24"
+                    Foreground="White">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="{Binding SelectedCityName}"></ToolTip>
+                    </TextBlock.ToolTip>
+                </TextBlock>
                 <TextBlock
                     Text="{Binding CurrentWeather.WeatherText}"
                     FontSize="18"
                     Foreground="White"/>
             </StackPanel>
-            <TextBlock 
+            <StackPanel
                 Grid.Column="1"
-                Text="{Binding CurrentWeather.Temperature.Metric.Value,StringFormat={}{0}°C}"
-                FontSize="30"
+                Margin="20">
+                <TextBlock 
+                    Text="{Binding CurrentWeather.Temperature.Metric.Value,StringFormat={}{0}°C}"
+                    FontSize="30"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Foreground="White"/>
+                <TextBlock
+                    Text="{Binding LocalDateTime}"
+                    Style="{StaticResource DateTimeStyle}"
+                    FontSize="12"
+                    Foreground="White">
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Background="LightGray"
+            Tag="{Binding IsLoadingWeather}"
+            Style="{StaticResource GridLoadingStyle}">
+            <Image
+                Source="/Management/Resource/Loading.png"
+                Tag="{Binding IsLoadingWeather}"
                 VerticalAlignment="Center"
-                Foreground="White"
-                Margin="20"/>
+                HorizontalAlignment="Center"
+                Height="40"
+                Style="{StaticResource ImageLoadingAnimationStyle}"
+                RenderOptions.EdgeMode="Aliased"
+                RenderOptions.BitmapScalingMode="Fant"/>
         </Grid>
     </Grid>
 </UserControl>

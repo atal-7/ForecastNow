@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ForecastNow.Management.Helper
 {
@@ -15,7 +16,7 @@ namespace ForecastNow.Management.Helper
         public const string BASE_URL = "http://dataservice.accuweather.com/";
         public const string AUTOCOMPLETE_ENDPOINT = "locations/v1/cities/autocomplete?apikey={0}&q={1}";
         public const string CURRENT_CONDITIONS_ENDPOINT = "currentconditions/v1/{0}?apikey={1}";
-        public const string API_KEY = "qG3yZv1VJE7f0IVwxQAcOXFhOMvHpDGE";
+        public const string API_KEY = "k2TdtVuVVpL32BpLBqjuAj5T7iTSgdUq";
 
         public static async Task<List<City>> GetCities(string query)
         {
@@ -28,12 +29,26 @@ namespace ForecastNow.Management.Helper
                 using (HttpClient client = new HttpClient())
                 {
                     var response = await client.GetAsync(url);
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    cities = JsonConvert.DeserializeObject<List<City>>(json);
+                    switch (response.StatusCode)
+                    {
+                        case System.Net.HttpStatusCode.OK:
+                            string json = await response.Content.ReadAsStringAsync();
+                            cities = JsonConvert.DeserializeObject<List<City>>(json);
+                            break;
+                        case System.Net.HttpStatusCode.ServiceUnavailable:
+                            MessageBox.Show("Daily Limited exceeded. Try again tomorrow", "Limit Exceeded", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            break;
+                        default:
+                            MessageBox.Show("Request Failed", "Unknown Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                    }
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Request failed: {ex.Message}");
+                MessageBox.Show("Request Failed", "UnknownError", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             return cities ?? new List<City>();
         }
@@ -47,10 +62,20 @@ namespace ForecastNow.Management.Helper
             using (HttpClient client = new HttpClient())
             {
                 var response = await client.GetAsync(url);
-                string json = await response.Content.ReadAsStringAsync();
-
-                var weatherlist = JsonConvert.DeserializeObject<List<CurrentWeather>>(json);
-                currentWeather = weatherlist?.FirstOrDefault();
+                switch (response.StatusCode)
+                {
+                    case System.Net.HttpStatusCode.OK:
+                        string json = await response.Content.ReadAsStringAsync();
+                        var weatherlist = JsonConvert.DeserializeObject<List<CurrentWeather>>(json);
+                        currentWeather = weatherlist?.FirstOrDefault();
+                        break;
+                    case System.Net.HttpStatusCode.ServiceUnavailable:
+                        MessageBox.Show("Daily Limited exceeded. Try again tomorrow", "Limit Exceeded", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        break;
+                    default:
+                        MessageBox.Show("Request Failed", "Unknown Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                }
             }
 
             return currentWeather ?? new CurrentWeather();

@@ -18,7 +18,20 @@ namespace ForecastNow.ViewModel
         #region Method
         public async void MakeQuery(object parameter)
         {
+            IsLoadingList = true;
             var cities = await AccuWeatherHelper.GetCities(Query);
+
+            citiesList?.Clear();
+            try
+            {
+                foreach(var city in cities)
+                {
+                    citiesList?.Add(city);
+                }
+
+                IsLoadingList = false;
+            }
+            catch (Exception ex){}
         }
 
         public bool CanMakeQuery(object parameter)

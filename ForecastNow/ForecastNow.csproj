@@ -8,7 +8,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Management\Resource\close.png" />
+	  <None Remove="Management\Resource\loading.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Management\Resource\close.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Management\Resource\loading.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update=".\ViewModel\WeatherViewModel.*.cs">
